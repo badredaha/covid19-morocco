@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Bar,Line, Pie} from 'react-chartjs-2';
-
+import * as firebase from 'firebase';
 
 interface Props{
 
@@ -51,7 +51,16 @@ export default class Home extends Component<Props,State>{
     }
 
     componentDidMount() {
-     
+        const config = {
+            apiKey: 'AIzaSyCWzsJvMp4I1XSBiIMAvcb095HcE-pEuVk',
+            authDomain: 'covid19-morroco',
+            databaseURL: 'https://covi19-1e310.firebaseio.com',
+            projectId: 'covi19-1e310',
+            storageBucket: '',
+          };
+
+          firebase.initializeApp(config);
+
     }
     render() {
         return (
