@@ -39,10 +39,10 @@ componentDidMount(){
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/signin"}>Signin</Link>
+                    <Link className="nav-link" to={"/signin"}>Sign in</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/signup"}>Signup</Link>
+                    <Link className="nav-link" to={"/signup"}>Sign up</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to={"/home"}>Home</Link>

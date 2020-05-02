@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import '../../css/theme.css'
-import { emit } from 'cluster';
+
+import Firebaseworker from '../../workers/firebaseworker';
 
 
 interface SigninProps {
@@ -14,7 +14,13 @@ interface SigninState {
 }
 
 export default class Signin extends Component<SigninProps, SigninState>{
+    // Variable class
+    firebaseWorker;
 
+    constructor(props:SigninProps){
+            super(props);
+            this.firebaseWorker = new Firebaseworker();
+    }
 
     goToHome() {
         const { history } = this.props;
@@ -71,7 +77,6 @@ export default class Signin extends Component<SigninProps, SigninState>{
     }
 
     handleSubmitForm = (e) => {
-
         e.preventDefault();
         this.firebaseSignIn(this.state.email, this.state.pwd);
     }
@@ -79,7 +84,7 @@ export default class Signin extends Component<SigninProps, SigninState>{
 
     firebaseSignIn(email: string, pwd: string) {
 
-        firebase.auth().signInWithEmailAndPassword(email, pwd).then((success) => {
+        this.firebaseWorker.signIn(email, pwd).then((success) => {
             this.goToHome();
         }).catch((error) => {
             const errorCode = error.code;
