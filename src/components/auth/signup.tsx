@@ -14,18 +14,27 @@ interface SignunState{
 
 export default class Signin extends Component<SignunProps,SignunState>{
 
-
   handleSubmitForm =(e)=>{
     e.preventDefault();
     this.firebaseSignup(this.state.email,this.state.pwd);
   }
-
 
   goToHome(){
     const { history } = this.props;
     history.push('/home');
   }
     
+  handleOnChange(e){
+    const {name,value} = e.currentTarget;
+    switch (name){
+      case "email":
+        this.setState({email:value});
+        break;
+        case "pwd":
+          this.setState({pwd:value});
+          break;
+    }
+  }
     render(){
     return (
         <div id="root">
@@ -37,12 +46,12 @@ export default class Signin extends Component<SignunProps,SignunState>{
 
                 <div className="form-group">
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" onChange={(e) =>this.setState({email:e.target.value})}/>
+                    <input type="email" name="email" className="form-control" placeholder="Enter email" onChange={(e) =>this.handleOnChange(e)}/>
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password"onChange={(e)=>this.setState({pwd:e.target.value})} />
+                    <input type="password" name="pwd" className="form-control" placeholder="Enter password"onChange={(e)=>this.handleOnChange(e)} />
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmitForm}>Submit</button>
