@@ -12,6 +12,25 @@ import FirebaseWorker from './workers/firebaseworker';
 
 import * as firebase from 'firebase'
 
+
+const AuthRouter = (props) => {
+
+  const [islogged, setIsLoogged] = useState(false);
+
+  useEffect(() => {
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      setIsLoogged(user != null);
+    });
+
+    
+  });
+
+  return (
+    islogged ? <Home/> : <Signin history={props.history}/>
+  );
+}
+
 const Links = (props) => {
 
   const [islogged, setIsLoogged] = useState(false);
@@ -26,7 +45,9 @@ const Links = (props) => {
   });
 
   return (
-    !islogged ? null :
+    islogged ? <li className="nav-item">
+    <Link className="nav-link" to={"/home"}>Home</Link>
+  </li> :
       <div className="container">
         <li className="nav-item">
           <Link className="nav-link" to={"/signin"}>Sign in</Link>
@@ -41,22 +62,26 @@ const Links = (props) => {
 
 class App extends Component {
 
-
   constructor(props) {
     super(props);
     FirebaseWorker.InitAppFirebasex();
   }
 
+
+  handleRouter = () => {
+
+    return Signin;
+  }
+  
   render() {
+
     return (
       <Router>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <Links />
-              <li className="nav-item">
-                <Link className="nav-link" to={"/home"}>Home</Link>
-              </li>
+              
             </ul>
           </div>
         </nav>
@@ -65,7 +90,7 @@ class App extends Component {
           <div className="auth-wrapper">
             <div className="auth-inner">
               <Switch>
-                <Route exact path='/' component={Signin} />
+                <Route exact path='/' component={AuthRouter} />
                 <Route path="/signin" component={Signin} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/home" component={Home} />
