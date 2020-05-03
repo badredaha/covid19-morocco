@@ -18,8 +18,11 @@ export default class Home extends Component<HomeProps,HomeState>{
         const homeInstance = this;
         reader.onload = function(e) {
             var result = reader.result as string;
+
+            
+            var separate = result.includes(";") ? ";" : ",";
             if(result){
-                var splitedData = result.split(',');
+                var splitedData = result.split(separate);
                 var filterNoEmptyData = splitedData.filter(s => {return  s.length > 0});
                 homeInstance.reloadData(filterNoEmptyData);
             }
