@@ -6,8 +6,7 @@ interface HomeProps{
 }
 
 interface HomeState{
-    chartData:any,
-    dataCSV:any
+    chartData:any
 }
 
 
@@ -70,8 +69,7 @@ export default class Home extends Component<HomeProps,HomeState>{
         this.state = {
             chartData:{
                 
-            },
-            dataCSV:[]
+            }
         }
 
         this.handleFiles = this.handleFiles.bind(this);

@@ -16,36 +16,40 @@ import * as firebase from 'firebase'
 const AuthRouter = (props) => {
 
   const [islogged, setIsLoogged] = useState(false);
+  const [isLoaded,setIsLoaded] = useState(false);
 
   useEffect(() => {
 
-    firebase.auth().onAuthStateChanged(function (user) {
+    const loaded = firebase.auth().onAuthStateChanged( (user) =>  {
       setIsLoogged(user != null);
+      setIsLoaded(true);
     });
 
     
   });
 
   return (
-    islogged ? <Home/> : <Signin history={props.history}/>
+    !isLoaded ? null : (islogged ? <Home/> : <Signin history={props.history}/>)
   );
 }
 
 const Links = (props) => {
 
   const [islogged, setIsLoogged] = useState(false);
-
+  const [isLoaded,setIsLoaded] = useState(false);
+  
   useEffect(() => {
 
     firebase.auth().onAuthStateChanged(function (user) {
       setIsLoogged(user != null);
+      setIsLoaded(true);
     });
 
     
   });
 
   return (
-    islogged ? <li className="nav-item">
+    !isLoaded ? null : (islogged ? <li className="nav-item">
     <Link className="nav-link" to={"/home"}>Home</Link>
   </li> :
       <div className="container">
@@ -55,7 +59,7 @@ const Links = (props) => {
         <li className="nav-item">
           <Link className="nav-link" to={"/signup"}>Sign up</Link>
         </li>
-      </div>
+      </div>)
 
   );
 }
