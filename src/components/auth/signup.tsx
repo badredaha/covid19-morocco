@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import * as firebase from 'firebase';
 import '../../css/theme.css'
-import Firebaseworker from '../../workers/firebaseworker';
+import FirebaseWorker from '../../workers/firebaseworker';
 
 
 interface SignunProps{
@@ -19,7 +19,7 @@ export default class Signin extends Component<SignunProps,SignunState>{
 
   constructor(props:SignunProps){
     super(props);
-    this.firebaseWorker = new Firebaseworker();
+    this.firebaseWorker = new FirebaseWorker();
   }
 
   handleSubmitForm =(e)=>{

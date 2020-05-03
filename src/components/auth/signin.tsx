@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/theme.css'
 
-import Firebaseworker from '../../workers/firebaseworker';
+import FirebaseWorker from '../../workers/firebaseworker';
 
 
 interface SigninProps {
@@ -19,7 +19,7 @@ export default class Signin extends Component<SigninProps, SigninState>{
 
     constructor(props:SigninProps){
             super(props);
-            this.firebaseWorker = new Firebaseworker();
+            this.firebaseWorker = new FirebaseWorker();
     }
 
     goToHome() {

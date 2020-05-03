@@ -1,25 +1,40 @@
-import React, { Component } from 'react'
-
-import * as firebase from 'firebase';
+import React, { Component, Fragment } from 'react'
+import ReactFileReader from 'react-file-reader';
 
 interface HomeProps{
      
 }
 
 interface HomeState{
-    chartData:any
+    chartData:any,
+    dataCSV:any
 }
+
+
 
 export default class Home extends Component<HomeProps,HomeState>{     
 
-    constructor(props: HomeProps){
-        super(props);
-        this.state = {
-            chartData:{
+    handleFiles(files) {
+        var reader = new FileReader();
+        const homeInstance = this;
+        reader.onload = function(e) {
+            var result = reader.result as string;
+            if(result){
+                var splitedData = result.split(',');
+                var filterNoEmptyData = splitedData.filter(s => {return  s.length > 0});
+                homeInstance.reloadData(filterNoEmptyData);
+            }
+        }
+
+        reader.readAsText(files[0]);
+    }
+    
+    reloadData(data) {
+            this.setState({chartData:{
                 labels: ['January', 'February', 'March', 'April','Mai','Juin','July','August','September','October','November','December',],
                 datasets: [{
                     label: 'Cas covid19',
-                    data: [20, 50, 90, 120, 160, 190, 200,250,300,10,0,0],
+                    data: data,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -46,16 +61,39 @@ export default class Home extends Component<HomeProps,HomeState>{
                     borderWidth: 1
                 }]
             }
+            });
+
+      }
+
+    constructor(props: HomeProps){
+        super(props);
+        this.state = {
+            chartData:{
+                
+            },
+            dataCSV:[]
         }
-        
+
+        this.handleFiles = this.handleFiles.bind(this);
+                
     }
 
 
     render() {
-        
+        const headers = [
+            { label: 'First Name', key: 'details.firstName' },
+            { label: 'Last Name', key: 'details.lastName' },
+            { label: 'Job', key: 'job' },
+          ];
+          
+          const data = [
+            { details: { firstName: 'Ahmed', lastName: 'Tomi' }, job: 'manager'},
+            { details: { firstName: 'John', lastName: 'Jones' }, job: 'developer'},
+          ];
         const Bar = require('react-chartjs-2').Bar
 
         return (
+            <Fragment>
            <Bar
            data = {this.state.chartData}
            options = {{
@@ -67,6 +105,13 @@ export default class Home extends Component<HomeProps,HomeState>{
             }
            }}
            />
+    
+   
+
+    <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+    <button className='btn'>Upload</button>
+</ReactFileReader>
+           </Fragment>
         )
     }
 }
